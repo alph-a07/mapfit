@@ -11,6 +11,15 @@ MapFit is your personal workout buddy for marking your running and cycling spots
 - **Workout Listing:** 📋 View a list of all your recorded workouts.
 - **Persistence:** 💾 Your data stays put even if you reload the page, thanks to local storage.
 
+## 💻 Roadmap
+
+- [ ] Edit/Delete workouts
+- [ ] Sort workouts
+- [ ] DSA (Never going to be ticked)
+- [ ] Recenter map to show all workouts
+- [ ] Draw the full cycling/running path instead of just points
+- [ ] Location and weather summary for locations
+
 ## 🚀 Usage
 
 Simply access **MapFit** directly [here](https://mapfit.vercel.app/). Interacting with the map, marking workout locations, and navigating between them is a breeze!
