@@ -7,7 +7,7 @@ MapFit is your personal workout buddy for marking your running and cycling spots
 - **Modern UI:** 🎨 Enjoy a sleek and intuitive user interface.
 - **Auto Detection:** 🌍 Automatically detect your current location for added convenience.
 - **Mark Workout Locations:** 📍 Easily mark your favorite workout spots on the map.
-- **Navigate Seamlessly:** 🧭 Move between different workout locations with ease.
+- **Navigate Seamlessly:** 🧭 Move between different workout locations easily.
 - **Workout Listing:** 📋 View a list of all your recorded workouts.
 - **Persistence:** 💾 Your data stays put even if you reload the page, thanks to local storage.
 
@@ -17,7 +17,7 @@ Simply access **MapFit** directly [here](https://mapfit.vercel.app/). Interactin
 
 ## 🤝 Contributing
 
-MapFit welcomes contributions! Join in to enhance the project, whether by transitioning from local storage to cloud storage or by adding exciting features.
+MapFit welcomes contributions! Join in to enhance the project, whether by transitioning from local storage to cloud storage or by adding exciting features. Frontend devs are welcome to work on the responsive design(Currently ideal for desktops).
 
 ## 🎓 Credits
 
