@@ -1,6 +1,5 @@
 'use strict';
 
-// prettier-ignore
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const form = document.querySelector('.form');
@@ -13,7 +12,7 @@ const inputElevation = document.querySelector('.form__input--elevation');
 
 class Workout {
     date = new Date();
-    id = Date.now().toString.slice(-10);
+    id = Date.now().toString().slice(-10);
 
     constructor(coords, distance, duration) {
         this.coords = coords;
@@ -23,6 +22,8 @@ class Workout {
 }
 
 class Running extends Workout {
+    type = 'running';
+
     constructor(coords, distance, duration, cadence) {
         super(coords, distance, duration);
         this.cadence = cadence;
@@ -37,6 +38,8 @@ class Running extends Workout {
 }
 
 class Cycling extends Workout {
+    type = 'cycling';
+
     constructor(coords, distance, duration, elevation) {
         super(coords, distance, duration);
         this.elevation = elevation;
@@ -53,6 +56,7 @@ class Cycling extends Workout {
 class App {
     #map;
     #mapEvent;
+    #workouts = [];
 
     constructor() {
         this._getPosition();
@@ -89,20 +93,63 @@ class App {
     }
 
     _newWorkout(e) {
+        const validateInputs = (...inputs) => inputs.every(input => Number.isFinite(input));
+        const positiveInputs = (...inputs) => inputs.every(input => input > 0);
+
         e.preventDefault();
 
+        // Get data from the form
+        const type = inputType.value;
+        const distance = Number(inputDistance.value);
+        const duration = Number(inputDuration.value);
         const { lat, lng } = this.#mapEvent.latlng;
-        L.marker([lat, lng])
-            .addTo(this.#map)
-            .bindPopup(
-                L.popup({ minWidth: 100, maxWidth: 250, autoClose: false, closeOnClick: false, className: 'running-popup' }).setContent('Workout!')
-            )
-            .openPopup();
+        let workout;
 
+        // Create running object, if type is running
+        if (type === 'running') {
+            const cadence = Number(inputCadence.value);
+
+            // Validate the input data
+            if (!validateInputs(distance, duration, cadence) || !positiveInputs(distance, duration, cadence))
+                return alert('Only positive inputs are accepted!');
+
+            workout = new Running([lat, lng], distance, duration, cadence);
+        }
+
+        // Create cycling object, if type is cycling
+        if (type === 'cycling') {
+            const elevation = Number(inputElevation.value);
+
+            // Validate the input data
+            // Elevation can be negative while cycling down
+            if (!validateInputs(distance, duration, elevation) || !positiveInputs(distance, duration))
+                return alert('Only positive inputs are accepted!');
+
+            workout = new Cycling([lat, lng], distance, duration, elevation);
+        }
+
+        // Add created object to workout array
+        this.#workouts.push(workout);
+
+        // Render workout on the map
+        this._renderWorkoutOnMap(workout);
+
+        // Hide form and clear values
         inputDistance.value = '';
         inputDuration.value = '';
         inputCadence.value = '';
         inputElevation.value = '';
+    }
+
+    _renderWorkoutOnMap(workout) {
+        L.marker(workout.coords)
+            .addTo(this.#map)
+            .bindPopup(
+                L.popup({ minWidth: 100, maxWidth: 250, autoClose: false, closeOnClick: false, className: `${workout.type}-popup` }).setContent(
+                    'Workout!'
+                )
+            )
+            .openPopup();
     }
 
     // Change the cadence/elevation depending on workout type
