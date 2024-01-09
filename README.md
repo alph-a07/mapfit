@@ -15,7 +15,6 @@ MapFit is your personal workout buddy for marking your running and cycling spots
 
 - [ ] Edit/Delete workouts
 - [ ] Sort workouts
-- [ ] DSA (Never going to be ticked)
 - [ ] Recenter map to show all workouts
 - [ ] Draw the full cycling/running path instead of just points
 - [ ] Location and weather summary for locations
