@@ -183,7 +183,7 @@ class App {
                 <span class="workout__unit">km</span>
                 </div>
             <div class="workout__details">
-                <span class="workout__icon">⏱</span>
+                <span class="workout__icon">⏱️</span>
                 <span class="workout__value">${workout.duration}</span>
                 <span class="workout__unit">min</span>
             </div>`;
@@ -196,7 +196,7 @@ class App {
                 <span class="workout__unit">min/km</span>
             </div>
             <div class="workout__details">
-                <span class="workout__icon">🦶🏼</span>
+                <span class="workout__icon">🦶</span>
                 <span class="workout__value">${workout.cadence}</span>
                 <span class="workout__unit">spm</span>
             </div>
