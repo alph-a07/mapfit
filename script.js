@@ -60,15 +60,18 @@ class Cycling extends Workout {
 }
 
 class App {
+    #mapZoomLevel = 15;
     #map;
     #mapEvent;
     #workouts = [];
 
     constructor() {
         this._getPosition();
+        this._getLocalStorage();
 
         form.addEventListener('submit', this._newWorkout.bind(this));
         inputType.addEventListener('change', this._toggleElevationField);
+        containerWorkouts.addEventListener('click', this._moveToMarker.bind(this));
     }
 
     _getPosition() {
@@ -83,21 +86,22 @@ class App {
         const coords = [position.coords.latitude, position.coords.longitude];
         // map => ID of the target view
         // 13 => Initial zoom level
-        this.#map = L.map('map').setView(coords, 15);
+        this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(this.#map);
 
         this.#map.on('click', this._showForm.bind(this));
+        this.#workouts.forEach(workout => {
+            this._renderWorkoutOnMap(workout);
+        });
     }
 
     _showForm(e) {
         form.classList.remove('hidden');
         this.#mapEvent = e;
         inputDistance.focus();
-
-        console.log('form shown');
     }
 
     _hideForm() {
@@ -109,8 +113,6 @@ class App {
         form.style.display = 'none'; // Immediately hide the form to skip the animation
         form.classList.add('hidden');
         setTimeout(() => (form.style.display = 'grid'), 1000); // Revert the display after animatin duration
-
-        console.log('form hidden');
     }
 
     _newWorkout(e) {
@@ -160,6 +162,8 @@ class App {
 
         // Hide form and clear values
         this._hideForm();
+
+        this._setLocalStorage();
     }
 
     _renderWorkoutOnMap(workout) {
@@ -220,10 +224,36 @@ class App {
         form.insertAdjacentHTML('afterend', html);
     }
 
+    _moveToMarker(event) {
+        const workoutElement = event.target.closest('.workout');
+
+        if (!workoutElement) return;
+
+        const workout = this.#workouts.find(work => work.id === workoutElement.dataset.id);
+
+        this.#map.setView(workout.coords, this.#mapZoomLevel, { animate: true, pan: { duration: 1 } });
+    }
+
     // Change the cadence/elevation depending on workout type
     _toggleElevationField() {
         inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
         inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+    }
+
+    // Store the workouts in browser's local storage
+    _setLocalStorage() {
+        localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    }
+
+    _getLocalStorage() {
+        const data = JSON.parse(localStorage.getItem('workouts'));
+
+        if (!data) return;
+        this.#workouts = data; // get previous workouts
+
+        this.#workouts.forEach(workout => {
+            this._renderWorkoutList(workout);
+        });
     }
 }
 
