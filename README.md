@@ -1,6 +1,8 @@
 # 📍 MapFit
 
-MapFit is your personal workout buddy for marking your running and cycling spots on an interactive map! 🏃‍♂️🚴‍♀️
+MapFit is your personal workout buddy for marking your running and cycling spots on an interactive map!
+
+![image](https://github.com/alph-a07/mapfit/assets/83648189/81414565-1bdc-4349-97e3-1894be72d507)
 
 ## 🌟 Features
 
